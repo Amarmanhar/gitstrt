@@ -35,9 +35,18 @@ function saveToLocalStorage(event){
 }
 function showOnscreen(obj){
    const parentEle = document.getElementById('listofitems');
-   parentEle.innerHTML = parentEle.innerHTML + `<li> ${obj.fname} - ${obj.lname} - ${obj.email} - ${obj.password}`;
+  // parentEle.innerHTML = parentEle.innerHTML + `<li> ${obj.fname} - ${obj.lname} - ${obj.email} - ${obj.password}`;
+    const childele = document.createElement('li');
+    childele.textContent = obj.fname + '-' + obj.lname + "-" + obj.email + "-" + obj.password;
 
-   // const childele = document.createElement('li');
-   // childele.textContent = obj.fname + '-' + obj.lname + "-" + obj.email + "-" + obj.password;
-   // parentEle.append(childele);
+    const deletbtn = document.createElement('input');
+    deletbtn.type = "button"
+    deletbtn.value =  'Delete'
+    deletbtn.onclick =() =>{
+      localStorage.removeItem(obj.email)
+      parentEle.removeChild(childele)
+    }
+    childele.appendChild(deletbtn);
+    parentEle.appendChild(childele);
+   
 }
