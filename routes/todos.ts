@@ -1,22 +1,35 @@
+import { Params } from './../node_modules/@types/express-serve-static-core/index.d';
 import { Router } from "express";
 import { Todos } from "../models/todos";
+import { type } from "os";
 
 const router = Router();
 let todos :Todos[]  = [];
+
+type reqBody = {text: string};
+type params = {id: string};
 
 router.get('/' ,(req, res, next) =>{
    res.status(200).json({todo: todos});
 })
 
-router.post('todos', (req,res)=>{
-    const newTodos : Todos = {
+router.post('/todos', (req,res)=>{
+
+    const body = req.body as reqBody;
+
+     // Check if the 'text' property exists in the request body
+     const newTodos: Todos = {
         id: new Date().toISOString(),
-        text: req.body.text,
+        text: body.text, // Corrected from req.body.text
     };
     todos.push(newTodos);
+
+    // Send a response indicating success
+    res.status(201).json({ message: "Todo added successfully", todo: newTodos });
 })
 
 router.put('/todo/:todoId', (req,res)=>{
+    
     const todosId = req.params.todoId;
     const todoIndex = todos.findIndex((todoItems) =>{
         todoItems.id === todosId ;
